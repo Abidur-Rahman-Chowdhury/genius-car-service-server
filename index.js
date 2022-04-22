@@ -22,7 +22,7 @@ async function run() {
     await client.connect();
 
     const serviceCollection = client.db('geniusCar').collection('service');
-
+    //   GET : get data from database
     app.get('/service', async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
@@ -30,7 +30,7 @@ async function run() {
         res.send(service);
     });
       
-      app.get('/service/:id', async (req, res) => {
+        app.get('/service/:id', async (req, res) => {
           const id = req.params.id;
           const query = { _id: ObjectId(id) };
 
@@ -38,6 +38,16 @@ async function run() {
 
           res.send(service);
       });
+/* --------get end-------- */
+
+    //   POST : Send data or add data in database
+      
+      app.post('/service', async (req, res) => {
+          const newService = req.body;
+          const result = await serviceCollection.insertOne(newService);
+
+          res.send(result);
+      })
   } finally {
   }
 }
